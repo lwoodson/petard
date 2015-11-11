@@ -6,6 +6,8 @@ describe "Rube Goldberg's Hello World" do
   let(:hello_port) { ENV['HELLO_PORT'] || 10001 }
   let(:world_host) { ENV['WORLD_HOST'] || 'localhost' }
   let(:world_port) { ENV['WORLD_PORT'] || 10002 }
+  let(:hello_world_host) { ENV['HELLO_WORLD_HOST'] || 'localhost' }
+  let(:hello_world_port) { ENV['HELLO_WORLD_PORT'] || 10000 }
 
   describe "Hello Service" do
     let(:endpoint) { "http://#{hello_host}:#{hello_port}/hello"}
@@ -32,6 +34,19 @@ describe "Rube Goldberg's Hello World" do
 
     it "should return world as its response body" do
       expect(response.body).to eql("World")
+    end
+  end
+
+  describe "Hello World Service" do
+    let(:endpoint) { "http://#{hello_world_host}:#{hello_world_port}/helloworld"}
+    let(:response) { HTTParty.get(endpoint) }
+
+    it "should return a 200 response" do
+      expect(response.code).to eql(200)
+    end
+
+    it "should return Hello World as its response body" do
+      expect(response.body).to eql("Hello World")
     end
   end
 end
