@@ -1,0 +1,4 @@
+hello_service:
+  build: hello
+  ports:
+    - "10001"
