@@ -2,16 +2,34 @@ hello_service:
   build: hello
   ports:
     - "10001"
+
 world_service:
   build: world
   ports:
     - "10002"
+
+hello_world_service:
+  build: api
+  ports:
+    - "10000"
+  links:
+    - hello_service
+    - world_service
+  environment:
+    HELLO_HOST: hello_service
+    HELLO_PORT: 10001
+    WORLD_HOST: world_service
+    WORLD_PORT: 10002
+
 integration_test:
   build: integration_test
   links:
     - hello_service
     - world_service
+    - hello_world_service
   environment:
+    HELLO_WORLD_HOST: hello_world_service
+    HELLO_WORLD_PORT: 10000
     HELLO_HOST: hello_service
     HELLO_PORT: 10001
     WORLD_HOST: world_service
