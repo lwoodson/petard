@@ -1,0 +1,22 @@
+require 'rspec'
+require 'httparty'
+
+describe "Rube Goldberg's Hello World" do
+  let(:hello_host) { ENV['HELLO_HOST'] || 'localhost' }
+  let(:hello_port) { ENV['HELLO_PORT'] || 10001 }
+
+  describe "Hello Service" do
+    let(:endpoint) { "http://#{hello_host}:#{hello_port}/hello"}
+    let(:response) { HTTParty.get(endpoint) }
+
+    describe "/hello endpoint" do
+      it "should return a 200 response" do
+        expect(response.code).to eql(200)
+      end
+
+      it "should return a hello as its response body" do
+        expect(response.body).to eql("Hello")
+      end
+    end
+  end
+end
