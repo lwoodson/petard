@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'httparty'
+require 'faraday'
 
 set :bind, "0.0.0.0"
 set :port, 10000
@@ -13,24 +13,22 @@ class HelloWorldService
   end
 
   def invoke
-    hello = make_request_to hello_endpoint
-    world = make_request_to world_endpoint
+    hello = make_request_to hello_endpoint, "/hello"
+    world = make_request_to world_endpoint, "/world"
     "#{hello} #{world}"
   end
 
-  def make_request_to(endpoint)
-    HTTParty.get(endpoint).tap do |response|
-      raise "Bad response" if response.code != 200
-      response.body
-    end
+  def make_request_to(endpoint, path)
+    response = endpoint.get(path).tap { |response| raise "error" unless response.success? }
+    response.body
   end
 
   def hello_endpoint
-    "http://#{@hello_host}:#{@hello_port}/hello"
+    @hello_endpoint ||= Faraday.new(url: "http://#{@hello_host}:#{@hello_port}")
   end
 
   def world_endpoint
-    "http://#{@world_host}:#{@world_port}/world"
+    @world_endpoint ||= Faraday.new(url: "http://#{@world_host}:#{@world_port}")
   end
 end
 
