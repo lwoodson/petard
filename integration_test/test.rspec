@@ -11,7 +11,7 @@ describe "Rube Goldberg's Hello World" do
 
   describe "Hello Service" do
     let(:endpoint) { "http://#{hello_host}:#{hello_port}/hello"}
-    let(:response) { HTTParty.get(endpoint) }
+    let(:response) { HTTParty.get(endpoint, timeout: 1) }
 
     describe "/hello endpoint" do
       it "should return a 200 response" do
@@ -26,7 +26,7 @@ describe "Rube Goldberg's Hello World" do
 
   describe "World Service" do
     let(:endpoint) { "http://#{world_host}:#{world_port}/world"}
-    let(:response) { HTTParty.get(endpoint) }
+    let(:response) { HTTParty.get(endpoint, timeout: 1) }
 
     it "should return a 200 response" do
       expect(response.code).to eql(200)
@@ -39,7 +39,7 @@ describe "Rube Goldberg's Hello World" do
 
   describe "Hello World Service" do
     let(:endpoint) { "http://#{hello_world_host}:#{hello_world_port}/helloworld"}
-    let(:response) { HTTParty.get(endpoint) }
+    let(:response) { HTTParty.get(endpoint, timeout: 1) }
 
     it "should return a 200 response" do
       expect(response.code).to eql(200)
