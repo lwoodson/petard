@@ -1,3 +1,3 @@
 #!/bin/bash
 waitforservices
-rspec /qa/test.rspec
+exec rspec /qa/test.rspec

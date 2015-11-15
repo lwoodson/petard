@@ -1,3 +1,3 @@
 #!/bin/bash
 waitforservices
-ruby /app/app.rb
+exec ruby /app/app.rb
