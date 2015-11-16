@@ -9,6 +9,12 @@ describe "Rube Goldberg's Hello World" do
   let(:hello_world_host) { ENV['HELLO_WORLD_HOST'] || 'localhost' }
   let(:hello_world_port) { ENV['HELLO_WORLD_PORT'] || 10000 }
 
+  after(:all) do
+    cmd = "docker ps | grep -v integration_test | grep -v CONTAINER | awk '{print $1}' | xargs docker kill"
+    puts "Shutting down other containers"
+    puts(`#{cmd}`)
+  end
+
   describe "Hello Service" do
     let(:endpoint) { "http://#{hello_host}:#{hello_port}/hello"}
     let(:response) { HTTParty.get(endpoint, timeout: 1) }

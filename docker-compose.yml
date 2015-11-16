@@ -27,6 +27,8 @@ integration_test:
     - hello_service
     - world_service
     - hello_world_service
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
   environment:
     HELLO_WORLD_HOST: hello_world_service
     HELLO_WORLD_PORT: 10000

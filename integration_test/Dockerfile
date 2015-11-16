@@ -13,6 +13,12 @@ RUN curl --location --silent --show-error --fail \
     > /usr/local/bin/waitforservices && \
     chmod +x /usr/local/bin/waitforservices
 
+# Install docker so we can kill everything when done
+RUN curl --location --silent --show-error --fail \
+    https://get.docker.com/builds/Linux/x86_64/docker-latest \
+    > /usr/local/bin/docker && \
+    chmod +x /usr/local/bin/docker
+
 # Install runner app
 COPY runner.sh /app/runner.sh
 RUN chmod +x /app/runner.sh
