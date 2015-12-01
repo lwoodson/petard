@@ -1,7 +1,14 @@
-FROM java:8-jdk
+FROM jamesdbloom/docker-java8-maven
 
 RUN mkdir -p /app
-COPY target/world-0.0.1-SNAPSHOT.jar /app/world.jar
+WORKDIR /app
+COPY pom.xml pom.xml
+COPY src src
+COPY runner.sh runner.sh
+RUN chmod +x runner.sh
+
+# Update to latest java -- this should be done in base image, but isn't
+RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 EXPOSE 10002
-CMD ["java", "-jar", "/app/world.jar"]
+CMD ["/app/runner.sh"]
